@@ -1,44 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fund_management/features/funds/domain/entity/fund_entity.dart';
+import 'package:fund_management/core/router/route_names.dart';
+import 'package:fund_management/features/funds/domain/entities/fund.dart';
+import 'package:fund_management/shared/enums/fund_category.dart';
+import 'package:fund_management/shared/enums/risk_profile.dart';
 import 'package:fund_management/shared/extentions/double_extentions.dart';
-import 'package:fund_management/shared/widgets/custom_text.dart';
-import 'package:fund_management/shared/extentions/string_extentions.dart';
+import 'package:fund_management/shared/widgets/app_card.dart';
+import 'package:go_router/go_router.dart';
 
 class FundCard extends StatelessWidget {
-  final FundEntity fund;
+  final Fund fund;
+
   const FundCard({super.key, required this.fund});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
-      ),
+    return AppCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 70.h,
-            child: CustomText(
-              text: fund.name.formatReadable(),
-              fontSize: 10.sp,
-            ),
-          ),
-          Spacer(),
-          CustomText(text: fund.minAmount.toCurrency(), fontSize: 10.sp),
-          CustomText(text: fund.type, fontSize: 10.sp),
-          CustomText(text: fund.annualRate.toPercentage(), fontSize: 10.sp),
-          Spacer(),
-          ElevatedButton(
-            onPressed: () {},
-            child: Container(
-              padding: EdgeInsets.all(2.w),
-              child: CustomText(text: 'Invertir', fontSize: 5.sp),
-            ),
+          Text(fund.name, style: Theme.of(context).textTheme.titleLarge),
+          const SizedBox(height: 8),
+          Text('Categoría: ${fund.category.label}'),
+          Text('Riesgo: ${fund.riskProfile.label}'),
+          Text('Monto mínimo: ${fund.minimumAmount.toCurrency()}'),
+          Text('Tasa anual simulada: ${fund.annualRate.toPercentage()}'),
+          const Spacer(),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              OutlinedButton(
+                onPressed: () =>
+                    context.go('${RouteNames.fundDetail}/${fund.id}'),
+                child: const Text('Ver detalle'),
+              ),
+              const SizedBox(width: 8),
+              FilledButton(
+                onPressed: () =>
+                    context.go('${RouteNames.subscribe}/${fund.id}'),
+                child: const Text('Suscribirse'),
+              ),
+            ],
           ),
         ],
       ),

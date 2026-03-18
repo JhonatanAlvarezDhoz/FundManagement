@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "FPV_BTG_PACTUAL_RECAUDADORA",
+    "minimumAmount": 75000,
+    "category": "fpv",
+    "annualRate": 0.08,
+    "riskProfile": "low"
+  },
+  {
+    "id": 2,
+    "name": "FPV_BTG_PACTUAL_ECOPETROL",
+    "minimumAmount": 125000,
+    "category": "fpv",
+    "annualRate": 0.11,
+    "riskProfile": "medium"
+  },
+  {
+    "id": 3,
+    "name": "DEUDAPRIVADA",
+    "minimumAmount": 50000,
+    "category": "fic",
+    "annualRate": 0.09,
+    "riskProfile": "low"
+  },
+  {
+    "id": 4,
+    "name": "FDO-ACCIONES",
+    "minimumAmount": 250000,
+    "category": "fic",
+    "annualRate": 0.16,
+    "riskProfile": "high"
+  },
+  {
+    "id": 5,
+    "name": "FPV_BTG_PACTUAL_DINAMICA",
+    "minimumAmount": 100000,
+    "category": "fpv",
+    "annualRate": 0.12,
+    "riskProfile": "medium"
+  }
+]
