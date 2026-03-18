@@ -1,10 +1,8 @@
-enum FundType { fpv, fic }
-
 class FundEntity {
-  final int id;
+  final String id;
   final String name;
   final double minAmount;
-  final FundType type;
+  final String type;
   final double annualRate;
 
   const FundEntity({

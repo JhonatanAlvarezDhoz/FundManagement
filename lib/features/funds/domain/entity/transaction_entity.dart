@@ -4,7 +4,7 @@ enum NotificationType { email, sms }
 
 class TransactionEntity {
   final String id;
-  final int fundId;
+  final String fundId;
   final double amount;
   final TransactionType type;
   final DateTime date;

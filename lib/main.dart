@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fund_management/core/di/injection.dart';
 import 'package:fund_management/core/routes/app_router.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ Future<void> bootstrap() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Injections
   await init();
+  await initializeDateFormatting('es_CO', null);
 }
 
 class MyApp extends StatelessWidget {
@@ -30,10 +32,7 @@ class MyApp extends StatelessWidget {
           title: 'Material App',
           routerConfig: AppRouter.router,
           builder: (context, child) {
-            return Scaffold(
-              appBar: AppBar(title: const Text('Material App Bar')),
-              body: const Center(child: Text('Hello World 2')),
-            );
+            return child!;
           },
         );
       },

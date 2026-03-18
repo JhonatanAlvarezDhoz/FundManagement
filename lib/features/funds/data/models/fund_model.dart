@@ -1,10 +1,8 @@
-import 'package:fund_management/features/funds/domain/entity/fund_entity.dart';
-
 class FundModel {
-  final int id;
+  final String id;
   final String name;
   final double minAmount;
-  final FundType type;
+  final String type;
   final double annualRate;
 
   const FundModel({
@@ -20,7 +18,7 @@ class FundModel {
       id: json['id'],
       name: json['name'],
       minAmount: json['minAmount'],
-      type: json['type'] == 'FPV' ? FundType.fpv : FundType.fic,
+      type: json['type'],
       annualRate: json['rate'],
     );
   }

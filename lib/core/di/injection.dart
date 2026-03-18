@@ -1,4 +1,5 @@
 import 'package:fund_management/core/services/local_storage_service.dart';
+import 'package:fund_management/core/services/user_service.dart';
 import 'package:fund_management/core/utils/time_simulator.dart';
 import 'package:fund_management/features/funds/data/datasources/funds_local_datasource.dart';
 import 'package:fund_management/features/funds/data/repository/fund_repository_impl.dart';
@@ -14,6 +15,7 @@ Future<void> init() async {
   /// services
   sl.registerLazySingleton(() => LocalStorageService());
   sl.registerLazySingleton(() => TimeSimulator());
+  sl.registerLazySingleton(() => UserService(storage: sl()));
 
   // DataSources
   sl.registerLazySingleton<FundsLocalDataSource>(
