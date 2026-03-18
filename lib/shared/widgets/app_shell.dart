@@ -21,6 +21,8 @@ class AppShell extends StatelessWidget {
     final items = const [
       // ('Dashboard', RouteNames.dashboard),
       ('Fondos', RouteNames.funds),
+      ('Portafolio', RouteNames.portfolio),
+      ('Historial', RouteNames.history),
     ];
 
     return LayoutBuilder(
@@ -63,6 +65,16 @@ class AppShell extends StatelessWidget {
                       icon: Icon(Icons.account_balance_wallet_outlined),
                       selectedIcon: Icon(Icons.account_balance_wallet),
                       label: Text('Fondos'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.pie_chart_outline),
+                      selectedIcon: Icon(Icons.pie_chart),
+                      label: Text('Portafolio'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.receipt_long_outlined),
+                      selectedIcon: Icon(Icons.receipt_long),
+                      label: Text('Historial'),
                     ),
                   ],
                 ),
