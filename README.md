@@ -2,6 +2,10 @@
 
 Aplicación Flutter Web para la prueba técnica de manejo de fondos FPV/FIC.
 
+## Flutter version
+
+- Flutter 3.35.6
+
 ## Stack
 
 - Flutter Web
@@ -42,11 +46,5 @@ flutter run -d chrome
 - El botón `Reset demo` limpia el estado y vuelve al saldo inicial.
 - Las tasas de rentabilidad son simuladas con estrategias determinísticas para que el comportamiento sea reproducible.
 - El proyecto fue preparado completo para ejecución local, pero no fue compilado en este entorno porque Flutter no está instalado en el contenedor.
-
-## Posibles mejoras
-
-- Gráficos históricos reales
-- Cancelación parcial
-- Notificaciones reales
-- Backend real
-- Tema oscuro
+- El tiempo esta simulado con una equivalencia de 1 segundo por dia.
+  
