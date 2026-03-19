@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import '../../../../shared/enums/fund_category.dart';
-import '../../../../shared/enums/notification_method.dart';
+import 'package:fund_management/shared/enums/fund_category.dart';
+import 'package:fund_management/shared/enums/notification_method.dart';
 
 class PortfolioPosition extends Equatable {
   final String id;
@@ -51,16 +51,16 @@ class PortfolioPosition extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        fundId,
-        fundName,
-        category,
-        subscribedAmount,
-        currentValue,
-        annualRate,
-        subscribedAt,
-        simulatedDays,
-        notificationMethod,
-        isActive,
-      ];
+    id,
+    fundId,
+    fundName,
+    category,
+    subscribedAmount,
+    currentValue,
+    annualRate,
+    subscribedAt,
+    simulatedDays,
+    notificationMethod,
+    isActive,
+  ];
 }

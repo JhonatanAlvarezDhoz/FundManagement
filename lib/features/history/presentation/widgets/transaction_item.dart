@@ -5,6 +5,7 @@ import 'package:fund_management/shared/enums/fund_category.dart';
 import 'package:fund_management/shared/enums/notification_method.dart';
 import 'package:fund_management/shared/enums/transaction_type.dart';
 import 'package:fund_management/shared/extentions/double_extentions.dart';
+import 'package:fund_management/shared/extentions/string_extentions.dart';
 import 'package:fund_management/shared/widgets/app_card.dart';
 
 class TransactionItem extends StatelessWidget {
@@ -18,7 +19,10 @@ class TransactionItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(item.fundName, style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            item.fundName.formatReadable(),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           const SizedBox(height: 8),
           Text('Tipo: ${item.type.label}'),
           Text('Categoría: ${item.category.label}'),

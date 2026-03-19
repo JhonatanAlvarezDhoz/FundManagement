@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fund_management/features/funds/presentation/bloc/funds_bloc.dart';
-import 'package:fund_management/features/funds/presentation/bloc/funds_event.dart';
-import 'package:fund_management/features/funds/presentation/bloc/funds_state.dart';
 import 'package:fund_management/features/funds/presentation/widgets/fund_card.dart';
 import 'package:fund_management/features/funds/presentation/widgets/fund_category_filter.dart';
 import 'package:fund_management/shared/widgets/app_empty_view.dart';
@@ -60,6 +58,7 @@ class FundsPage extends StatelessWidget {
                 Expanded(
                   child: LayoutBuilder(
                     builder: (context, constraints) {
+                      // Controllamos la distribucion del gridview teniendo en cuenta el acho de pantalla disponible
                       final crossAxisCount = constraints.maxWidth >= 1200
                           ? 3
                           : constraints.maxWidth >= 700

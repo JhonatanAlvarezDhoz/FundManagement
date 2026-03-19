@@ -1,3 +1,5 @@
+import 'package:fund_management/core/sync/app_operation_lock.dart';
+import 'package:fund_management/features/dashboard/presentation/cubit/dashboard_cubit.dart';
 import 'package:fund_management/features/funds/data/datasources/funds_remote_data_source.dart';
 import 'package:fund_management/features/funds/data/datasources/funds_remote_data_source_impl.dart';
 import 'package:fund_management/features/funds/data/repositories/fund_repository_impl.dart';
@@ -20,62 +22,119 @@ import 'package:fund_management/features/portfolio/domain/usecases/get_portfolio
 import 'package:fund_management/features/portfolio/domain/usecases/get_wallet_summary_use_case.dart';
 import 'package:fund_management/features/portfolio/domain/usecases/subscribe_to_fund_use_case.dart';
 import 'package:fund_management/features/portfolio/presentation/bloc/portfolio_bloc.dart';
+import 'package:fund_management/features/simulation/data/datasources/simulation_local_data_source.dart';
+import 'package:fund_management/features/simulation/data/datasources/simulation_local_data_source_impl.dart';
+import 'package:fund_management/features/simulation/data/repositories/simulation_repository_impl.dart';
+import 'package:fund_management/features/simulation/domain/repositories/simulation_repository.dart';
+import 'package:fund_management/features/simulation/domain/usecases/advance_simulation_day_use_case.dart';
+import 'package:fund_management/features/simulation/presentation/cubit/simulation_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> configureDependencies() async {
-  // Storage
+  /// Obtiene instancia de SharedPreferences (async init).
   final prefs = await SharedPreferences.getInstance();
 
+  // =========================
+  //  CORE / GLOBAL SERVICES
+  // =========================
+
+  /// Registro de SharedPreferences como singleton.
+  /// Se reutiliza la misma instancia en toda la app.
   getIt.registerLazySingleton<SharedPreferences>(() => prefs);
 
-  // Datasources
+  /// Registro del lock global para operaciones críticas.
+  /// Garantiza ejecución secuencial (evita race conditions).
+  getIt.registerLazySingleton<AppOperationLock>(() => AppOperationLock());
+
+  // =========================
+  //  DATA SOURCES
+  // =========================
+
+  /// Fuente remota (simulada o API).
   getIt.registerLazySingleton<FundsRemoteDataSource>(
     () => FundsRemoteDataSourceImpl(),
   );
 
+  /// Fuentes locales (persistencia).
+  /// Dependen de SharedPreferences (inyectado con getIt()).
   getIt.registerLazySingleton<PortfolioLocalDataSource>(
     () => PortfolioLocalDataSourceImpl(getIt()),
   );
   getIt.registerLazySingleton<HistoryLocalDataSource>(
     () => HistoryLocalDataSourceImpl(getIt()),
   );
+  getIt.registerLazySingleton<SimulationLocalDataSource>(
+    () => SimulationLocalDataSourceImpl(getIt()),
+  );
 
-  // Repositoties
+  // =========================
+  //  REPOSITORIES
+  // =========================
+
+  /// Implementaciones concretas de repositorios.
+  /// Abstraen el acceso a data sources.
   getIt.registerLazySingleton<FundRepository>(
     () => FundRepositoryImpl(getIt()),
   );
-
   getIt.registerLazySingleton<PortfolioRepository>(
     () => PortfolioRepositoryImpl(getIt()),
   );
   getIt.registerLazySingleton<TransactionRepository>(
     () => TransactionRepositoryImpl(getIt()),
   );
+  getIt.registerLazySingleton<SimulationRepository>(
+    () => SimulationRepositoryImpl(getIt()),
+  );
 
-  // UseCases
+  // =========================
+  // 🔹 USE CASES (DOMAIN)
+  // =========================
+
+  /// Casos de uso simples (1 repo)
   getIt.registerLazySingleton(() => GetFundsUseCase(getIt()));
   getIt.registerLazySingleton(() => GetFundByIdUseCase(getIt()));
   getIt.registerLazySingleton(() => GetWalletSummaryUseCase(getIt()));
   getIt.registerLazySingleton(() => GetPortfolioUseCase(getIt()));
+
+  /// Caso de uso complejo (orquestación + lock)
   getIt.registerLazySingleton(
     () => SubscribeToFundUseCase(
       fundRepository: getIt(),
       portfolioRepository: getIt(),
       transactionRepository: getIt(),
+      operationLock: getIt(),
     ),
   );
+
   getIt.registerLazySingleton(
     () => CancelFundSubscriptionUseCase(
       portfolioRepository: getIt(),
       transactionRepository: getIt(),
+      operationLock: getIt(),
     ),
   );
-  getIt.registerLazySingleton(() => GetTransactionHistoryUseCase(getIt()));
 
-  // Blocs
+  /// Caso de uso que modifica estado global simulado (tiempo).
+  /// Usa lock porque altera múltiples fuentes.
+  getIt.registerLazySingleton(() => GetTransactionHistoryUseCase(getIt()));
+  getIt.registerLazySingleton(
+    () => AdvanceSimulationDayUseCase(
+      portfolioRepository: getIt(),
+      simulationRepository: getIt(),
+      fundRepository: getIt(),
+      operationLock: getIt(),
+    ),
+  );
+
+  // =========================
+  //  PRESENTATION (BLoC / Cubit)
+  // =========================
+
+  /// Factory: se crea una nueva instancia cada vez.
+  /// Correcto para BLoCs (no deben ser singletons).
   getIt.registerFactory(() => FundsBloc(getFundsUseCase: getIt()));
   getIt.registerFactory(
     () => HistoryBloc(getTransactionHistoryUseCase: getIt()),
@@ -88,6 +147,16 @@ Future<void> configureDependencies() async {
       cancelFundSubscriptionUseCase: getIt(),
       portfolioRepository: getIt(),
       transactionRepository: getIt(),
+      simulationRepository: getIt(),
     ),
+  );
+  getIt.registerFactory(
+    () => DashboardCubit(
+      getWalletSummaryUseCase: getIt(),
+      getPortfolioUseCase: getIt(),
+    ),
+  );
+  getIt.registerFactory(
+    () => SimulationCubit(advanceSimulationDayUseCase: getIt()),
   );
 }

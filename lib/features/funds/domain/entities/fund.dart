@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import '../../../../shared/enums/fund_category.dart';
-import '../../../../shared/enums/risk_profile.dart';
+import 'package:fund_management/shared/enums/fund_category.dart';
+import 'package:fund_management/shared/enums/risk_profile.dart';
 
 class Fund extends Equatable {
   final int id;
@@ -20,5 +20,12 @@ class Fund extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, name, category, minimumAmount, annualRate, riskProfile];
+  List<Object?> get props => [
+    id,
+    name,
+    category,
+    minimumAmount,
+    annualRate,
+    riskProfile,
+  ];
 }

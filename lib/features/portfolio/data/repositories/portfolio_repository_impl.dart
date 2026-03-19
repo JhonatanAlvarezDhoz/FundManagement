@@ -1,11 +1,11 @@
-import '../../../../core/errors/failures.dart';
-import '../../../../core/result/result.dart';
-import '../../domain/entities/portfolio_position.dart';
-import '../../domain/entities/user_wallet.dart';
-import '../../domain/repositories/portfolio_repository.dart';
-import '../datasources/portfolio_local_data_source.dart';
-import '../models/portfolio_position_model.dart';
-import '../models/user_wallet_model.dart';
+import 'package:fund_management/core/errors/failures.dart';
+import 'package:fund_management/core/result/result.dart';
+import 'package:fund_management/features/portfolio/data/datasources/portfolio_local_data_source.dart';
+import 'package:fund_management/features/portfolio/data/models/portfolio_position_model.dart';
+import 'package:fund_management/features/portfolio/data/models/user_wallet_model.dart';
+import 'package:fund_management/features/portfolio/domain/entities/portfolio_position.dart';
+import 'package:fund_management/features/portfolio/domain/entities/user_wallet.dart';
+import 'package:fund_management/features/portfolio/domain/repositories/portfolio_repository.dart';
 
 class PortfolioRepositoryImpl implements PortfolioRepository {
   final PortfolioLocalDataSource dataSource;

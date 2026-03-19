@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fund_management/core/theme/app_colors.dart';
 import 'package:fund_management/features/portfolio/presentation/bloc/portfolio_bloc.dart';
-import 'package:fund_management/features/portfolio/presentation/bloc/portfolio_event.dart';
-import 'package:fund_management/features/portfolio/presentation/bloc/portfolio_state.dart';
 import 'package:fund_management/features/portfolio/presentation/widgets/portfolio_card.dart';
 import 'package:fund_management/shared/extentions/double_extentions.dart';
 import 'package:fund_management/shared/widgets/app_empty_view.dart';

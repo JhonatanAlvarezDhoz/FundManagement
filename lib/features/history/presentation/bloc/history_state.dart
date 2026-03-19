@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import '../../domain/entities/transaction_entity.dart';
+part of 'history_bloc.dart';
 
 sealed class HistoryState extends Equatable {
   const HistoryState();

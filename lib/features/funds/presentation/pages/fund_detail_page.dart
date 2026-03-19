@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fund_management/core/router/route_names.dart';
+import 'package:fund_management/router/route_names.dart';
 import 'package:fund_management/features/funds/presentation/bloc/funds_bloc.dart';
-import 'package:fund_management/features/funds/presentation/bloc/funds_state.dart';
 import 'package:fund_management/shared/enums/fund_category.dart';
 import 'package:fund_management/shared/enums/risk_profile.dart';
 import 'package:fund_management/shared/extentions/double_extentions.dart';
+import 'package:fund_management/shared/extentions/string_extentions.dart';
 import 'package:fund_management/shared/widgets/app_card.dart';
 import 'package:fund_management/shared/widgets/app_shell.dart';
 import 'package:go_router/go_router.dart';
@@ -36,16 +36,14 @@ class FundDetailPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  fund.name,
+                  fund.name.formatReadable(),
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 16),
                 Text('Categoría: ${fund.category.label}'),
                 Text('Riesgo: ${fund.riskProfile.label}'),
                 Text('Monto mínimo: ${fund.minimumAmount.toCurrency()}'),
-                Text(
-                  'Tasa anual simulada: ${(fund.annualRate * 100).toStringAsFixed(2)}%',
-                ),
+                Text('Tasa anual simulada: ${fund.annualRate.toPercentage()}'),
                 const SizedBox(height: 16),
                 const Text(
                   'La rentabilidad es una simulación determinística con aceleración de tiempo. '

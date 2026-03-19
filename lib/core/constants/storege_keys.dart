@@ -1,3 +1,5 @@
+// LLaves para centralizar las llaves que se van a manejar en el storage
+
 class StorageKeys {
   static const wallet = 'wallet';
   static const positions = 'positions';

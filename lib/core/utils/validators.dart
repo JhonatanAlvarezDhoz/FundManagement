@@ -1,3 +1,4 @@
+// Validaciones relacionada con los montos de inversion
 class Validators {
   static String? amount(String? value) {
     if (value == null || value.trim().isEmpty) {

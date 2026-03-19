@@ -1,5 +1,6 @@
 class RouteNames {
-  static const funds = '/';
+  static const dashboard = '/';
+  static const funds = '/funds';
   static const fundDetail = '/fund-detail';
   static const subscribe = '/subscribe';
   static const portfolio = '/portfolio';

@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import '../../../../shared/enums/notification_method.dart';
+part of 'portfolio_bloc.dart';
 
 sealed class PortfolioEvent extends Equatable {
   const PortfolioEvent();

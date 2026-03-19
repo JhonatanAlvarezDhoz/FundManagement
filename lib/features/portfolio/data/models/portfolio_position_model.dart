@@ -1,7 +1,6 @@
+import 'package:fund_management/features/portfolio/domain/entities/portfolio_position.dart';
 import 'package:fund_management/shared/enums/fund_category.dart';
 import 'package:fund_management/shared/enums/notification_method.dart';
-
-import '../../domain/entities/portfolio_position.dart';
 
 class PortfolioPositionModel extends PortfolioPosition {
   const PortfolioPositionModel({

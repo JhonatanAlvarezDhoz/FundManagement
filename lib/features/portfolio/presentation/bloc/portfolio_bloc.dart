@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fund_management/core/errors/failure_mapper.dart';
 import 'package:fund_management/core/result/result.dart';
@@ -9,8 +10,12 @@ import 'package:fund_management/features/portfolio/domain/usecases/cancel_fund_s
 import 'package:fund_management/features/portfolio/domain/usecases/get_portfolio_use_case.dart';
 import 'package:fund_management/features/portfolio/domain/usecases/get_wallet_summary_use_case.dart';
 import 'package:fund_management/features/portfolio/domain/usecases/subscribe_to_fund_use_case.dart';
-import 'package:fund_management/features/portfolio/presentation/bloc/portfolio_event.dart';
-import 'package:fund_management/features/portfolio/presentation/bloc/portfolio_state.dart';
+
+import 'package:fund_management/features/simulation/domain/repositories/simulation_repository.dart';
+import 'package:fund_management/shared/enums/notification_method.dart';
+
+part 'portfolio_event.dart';
+part 'portfolio_state.dart';
 
 class PortfolioBloc extends Bloc<PortfolioEvent, PortfolioState> {
   final GetPortfolioUseCase getPortfolioUseCase;
@@ -19,6 +24,7 @@ class PortfolioBloc extends Bloc<PortfolioEvent, PortfolioState> {
   final CancelFundSubscriptionUseCase cancelFundSubscriptionUseCase;
   final PortfolioRepository portfolioRepository;
   final TransactionRepository transactionRepository;
+  final SimulationRepository simulationRepository;
 
   PortfolioBloc({
     required this.getPortfolioUseCase,
@@ -27,6 +33,7 @@ class PortfolioBloc extends Bloc<PortfolioEvent, PortfolioState> {
     required this.cancelFundSubscriptionUseCase,
     required this.portfolioRepository,
     required this.transactionRepository,
+    required this.simulationRepository,
   }) : super(const PortfolioInitial()) {
     on<PortfolioRequested>(_onRequested);
     on<SubscribeRequested>(_onSubscribe);
@@ -108,7 +115,7 @@ class PortfolioBloc extends Bloc<PortfolioEvent, PortfolioState> {
     emit(const PortfolioLoading());
     await portfolioRepository.reset();
     await transactionRepository.reset();
-
+    await simulationRepository.reset();
     await _loadState(emit, flashMessage: 'Demo reiniciada correctamente.');
   }
 

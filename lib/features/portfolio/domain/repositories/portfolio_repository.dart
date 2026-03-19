@@ -1,6 +1,6 @@
-import '../../../../core/result/result.dart';
-import '../entities/portfolio_position.dart';
-import '../entities/user_wallet.dart';
+import 'package:fund_management/core/result/result.dart';
+import 'package:fund_management/features/portfolio/domain/entities/portfolio_position.dart';
+import 'package:fund_management/features/portfolio/domain/entities/user_wallet.dart';
 
 abstract class PortfolioRepository {
   Future<Result<UserWallet>> getWallet();

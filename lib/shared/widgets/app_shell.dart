@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fund_management/core/router/route_names.dart';
+import 'package:fund_management/router/route_names.dart';
 import 'package:go_router/go_router.dart';
 
 class AppShell extends StatelessWidget {
@@ -19,7 +19,7 @@ class AppShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = const [
-      // ('Dashboard', RouteNames.dashboard),
+      ('Dashboard', RouteNames.dashboard),
       ('Fondos', RouteNames.funds),
       ('Portafolio', RouteNames.portfolio),
       ('Historial', RouteNames.history),

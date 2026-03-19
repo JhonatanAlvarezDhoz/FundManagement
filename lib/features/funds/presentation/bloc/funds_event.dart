@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:fund_management/shared/enums/fund_category.dart';
+part of 'funds_bloc.dart';
 
 sealed class FundsEvent extends Equatable {
   const FundsEvent();

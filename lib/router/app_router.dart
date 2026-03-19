@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fund_management/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:fund_management/features/funds/presentation/pages/fund_detail_page.dart';
 import 'package:fund_management/features/funds/presentation/pages/funds_page.dart';
 import 'package:fund_management/features/history/presentation/pages/history_page.dart';
@@ -11,6 +12,12 @@ import 'route_names.dart';
 class AppRouter {
   static final GoRouter router = GoRouter(
     routes: [
+      GoRoute(
+        path: RouteNames.dashboard,
+        name: RouteNames.dashboard,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: DashboardPage()),
+      ),
       GoRoute(
         path: RouteNames.funds,
         name: RouteNames.funds,

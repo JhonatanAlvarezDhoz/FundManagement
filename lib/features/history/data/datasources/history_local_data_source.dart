@@ -1,4 +1,4 @@
-import '../models/transaction_model.dart';
+import 'package:fund_management/features/history/data/models/transaction_model.dart';
 
 abstract class HistoryLocalDataSource {
   Future<List<TransactionModel>> getTransactions();

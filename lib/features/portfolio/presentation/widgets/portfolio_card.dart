@@ -5,6 +5,7 @@ import 'package:fund_management/features/portfolio/domain/entities/portfolio_pos
 import 'package:fund_management/shared/enums/fund_category.dart';
 import 'package:fund_management/shared/enums/notification_method.dart';
 import 'package:fund_management/shared/extentions/double_extentions.dart';
+import 'package:fund_management/shared/extentions/string_extentions.dart';
 import 'package:fund_management/shared/widgets/app_card.dart';
 
 class PortfolioCard extends StatelessWidget {
@@ -25,7 +26,7 @@ class PortfolioCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            position.fundName,
+            position.fundName.formatReadable(),
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 8),

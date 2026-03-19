@@ -1,5 +1,5 @@
-import '../models/portfolio_position_model.dart';
-import '../models/user_wallet_model.dart';
+import 'package:fund_management/features/portfolio/data/models/portfolio_position_model.dart';
+import 'package:fund_management/features/portfolio/data/models/user_wallet_model.dart';
 
 abstract class PortfolioLocalDataSource {
   Future<UserWalletModel> getWallet();

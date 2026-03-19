@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import '../../../../shared/enums/fund_category.dart';
-import '../../../../shared/enums/notification_method.dart';
-import '../../../../shared/enums/transaction_type.dart';
+import 'package:fund_management/shared/enums/fund_category.dart';
+import 'package:fund_management/shared/enums/notification_method.dart';
+import 'package:fund_management/shared/enums/transaction_type.dart';
 
 class TransactionEntity extends Equatable {
   final String id;
@@ -27,5 +27,15 @@ class TransactionEntity extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, type, fundId, fundName, category, amount, createdAt, notificationMethod, resultingBalance];
+  List<Object?> get props => [
+    id,
+    type,
+    fundId,
+    fundName,
+    category,
+    amount,
+    createdAt,
+    notificationMethod,
+    resultingBalance,
+  ];
 }

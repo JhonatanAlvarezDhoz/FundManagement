@@ -1,9 +1,9 @@
-import '../../../../core/errors/failures.dart';
-import '../../../../core/result/result.dart';
-import '../../domain/entities/transaction_entity.dart';
-import '../../domain/repositories/transaction_repository.dart';
-import '../datasources/history_local_data_source.dart';
-import '../models/transaction_model.dart';
+import 'package:fund_management/core/errors/failures.dart';
+import 'package:fund_management/core/result/result.dart';
+import 'package:fund_management/features/history/data/datasources/history_local_data_source.dart';
+import 'package:fund_management/features/history/data/models/transaction_model.dart';
+import 'package:fund_management/features/history/domain/entities/transaction_entity.dart';
+import 'package:fund_management/features/history/domain/repositories/transaction_repository.dart';
 
 class TransactionRepositoryImpl implements TransactionRepository {
   final HistoryLocalDataSource dataSource;

@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'history_bloc.dart';
 
 sealed class HistoryEvent extends Equatable {
   const HistoryEvent();

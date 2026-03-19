@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import '../../domain/entities/portfolio_position.dart';
-import '../../domain/entities/user_wallet.dart';
+part of 'portfolio_bloc.dart';
 
 sealed class PortfolioState extends Equatable {
   const PortfolioState();

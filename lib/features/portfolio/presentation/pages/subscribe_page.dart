@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fund_management/core/router/route_names.dart';
+import 'package:fund_management/router/route_names.dart';
 import 'package:fund_management/core/utils/validators.dart';
 import 'package:fund_management/features/funds/presentation/bloc/funds_bloc.dart';
-import 'package:fund_management/features/funds/presentation/bloc/funds_state.dart';
 import 'package:fund_management/features/portfolio/presentation/bloc/portfolio_bloc.dart';
-import 'package:fund_management/features/portfolio/presentation/bloc/portfolio_event.dart';
-import 'package:fund_management/features/portfolio/presentation/bloc/portfolio_state.dart';
 import 'package:fund_management/shared/enums/fund_category.dart';
 import 'package:fund_management/shared/enums/notification_method.dart';
 import 'package:fund_management/shared/extentions/double_extentions.dart';
@@ -61,9 +58,7 @@ class _SubscribePageState extends State<SubscribePage> {
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'Monto mínimo: ${fund.minimumAmount.toDouble().toCurrency()}',
-                  ),
+                  Text('Monto mínimo: ${fund.minimumAmount.toCurrency()}'),
                   Text('Categoría: ${fund.category.label}'),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -121,7 +116,8 @@ class _SubscribePageState extends State<SubscribePage> {
     final amount = Validators.parseAmount(_amountController.text);
     if (amount == null) return;
 
-    context.read<PortfolioBloc>().add(
+    final bloc = context.read<PortfolioBloc>();
+    bloc.add(
       SubscribeRequested(
         fundId: widget.fundId,
         amount: amount,
@@ -129,13 +125,16 @@ class _SubscribePageState extends State<SubscribePage> {
       ),
     );
 
-    context
-        .read<PortfolioBloc>()
-        .stream
-        .firstWhere((state) => state is! PortfolioLoading)
+    bloc.stream
+        .firstWhere((state) {
+          return state is PortfolioLoaded && !state.isSubmitting ||
+              state is PortfolioError;
+        })
         .then((state) {
           if (!mounted) return;
-          context.go(RouteNames.portfolio);
+          if (state is PortfolioLoaded) {
+            context.go(RouteNames.portfolio);
+          }
         });
   }
 }
