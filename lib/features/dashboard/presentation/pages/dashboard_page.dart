@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fund_management/core/theme/app_colors.dart';
 import 'package:fund_management/features/dashboard/presentation/cubit/dashboard_cubit.dart';
+import 'package:fund_management/features/portfolio/domain/entities/portfolio_position.dart';
+import 'package:fund_management/features/portfolio/domain/entities/user_wallet.dart';
 import 'package:fund_management/features/portfolio/presentation/bloc/portfolio_bloc.dart';
 import 'package:fund_management/shared/extentions/double_extentions.dart';
 import 'package:fund_management/shared/widgets/app_error_view.dart';
@@ -34,73 +36,101 @@ class DashboardPage extends StatelessWidget {
           final wallet = state.wallet!;
           final profit = wallet.portfolioCurrentValue - wallet.investedBalance;
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SectionHeader(
-                  title: 'Resumen financiero',
-                  subtitle:
-                      'Monitorea tu saldo, inversión y rentabilidad simulada.',
-                  trailing: OutlinedButton(
-                    onPressed: () {
-                      context.read<PortfolioBloc>().add(
-                        const ResetDemoRequested(),
-                      );
-                      context.read<DashboardCubit>().load();
-                    },
-                    child: const Text('Reset demo'),
-                  ),
+          return LayoutBuilder(
+            builder: (context, constraintsA) {
+              if (constraintsA.maxWidth >= 800) {
+                return DashboardContent(
+                  wallet: wallet,
+                  profit: profit,
+                  positions: state.positions,
+                );
+              }
+              return SingleChildScrollView(
+                child: DashboardContent(
+                  wallet: wallet,
+                  profit: profit,
+                  positions: state.positions,
                 ),
-                const SizedBox(height: 20),
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    final crossAxisCount = constraints.maxWidth >= 1200
-                        ? 4
-                        : constraints.maxWidth >= 700
-                        ? 2
-                        : 1;
-                    return GridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 2.1,
-                      children: [
-                        SummaryTile(
-                          title: 'Saldo disponible',
-                          value: wallet.availableBalance.toCurrency(),
-                        ),
-                        SummaryTile(
-                          title: 'Capital invertido',
-                          value: wallet.investedBalance.toCurrency(),
-                        ),
-                        SummaryTile(
-                          title: 'Valor actual',
-                          value: wallet.portfolioCurrentValue.toCurrency(),
-                        ),
-                        SummaryTile(
-                          title: 'Ganancia / pérdida',
-                          value: profit.toCurrency(),
-                          accent: profit >= 0
-                              ? AppColors.success
-                              : AppColors.danger,
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  'Posiciones activas: ${state.positions.length}',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ],
-            ),
+              );
+            },
           );
         },
       ),
+    );
+  }
+}
+
+class DashboardContent extends StatelessWidget {
+  final List<PortfolioPosition> positions;
+  const DashboardContent({
+    super.key,
+    required this.wallet,
+    required this.profit,
+    required this.positions,
+  });
+
+  final UserWallet wallet;
+  final double profit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(
+          title: 'Resumen financiero',
+          subtitle: 'Monitorea tu saldo, inversión y rentabilidad simulada.',
+          trailing: OutlinedButton(
+            onPressed: () {
+              context.read<PortfolioBloc>().add(const ResetDemoRequested());
+              context.read<DashboardCubit>().load();
+            },
+            child: const Text('Reset demo'),
+          ),
+        ),
+        const SizedBox(height: 20),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final crossAxisCount = constraints.maxWidth >= 1200
+                ? 4
+                : constraints.maxWidth >= 700
+                ? 2
+                : 1;
+            return GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 2.1,
+              children: [
+                SummaryTile(
+                  title: 'Saldo disponible',
+                  value: wallet.availableBalance.toCurrency(),
+                ),
+                SummaryTile(
+                  title: 'Capital invertido',
+                  value: wallet.investedBalance.toCurrency(),
+                ),
+                SummaryTile(
+                  title: 'Valor actual',
+                  value: wallet.portfolioCurrentValue.toCurrency(),
+                ),
+                SummaryTile(
+                  title: 'Ganancia / pérdida',
+                  value: profit.toCurrency(),
+                  accent: profit >= 0 ? AppColors.success : AppColors.danger,
+                ),
+              ],
+            );
+          },
+        ),
+        const SizedBox(height: 24),
+        Text(
+          'Posiciones activas: ${positions.length}',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      ],
     );
   }
 }
